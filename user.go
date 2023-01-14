@@ -1,4 +1,4 @@
-package abafgdfasg
+package SiteForPractic
 
 type User struct {
 	Id              int    `gorm:"primaryKey;autoIncrement;unique" json:"id"`

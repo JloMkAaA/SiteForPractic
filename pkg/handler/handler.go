@@ -8,21 +8,15 @@ type Handler struct {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	auth := router.Group("/auth")
-	{
-		auth.POST("/sign-Up")
-		auth.POST("/sign-Ip")
-	}
-
 	api := router.Group("/api")
 	{
 		user := api.Group("/user")
 		{
-			user.POST("/")
-			user.GET("/")
-			user.GET("/:id")
-			user.PUT("/:id")
-			user.DELETE("/:id")
+			user.POST("/", h.createUser)
+			user.GET("/", h.getAllUsers)
+			user.GET("/:id", h.getUserById)
+			user.PUT("/:id", h.updateUser)
+			user.DELETE("/:id", h.deleteUser)
 		}
 	}
 	return router
