@@ -6,6 +6,6 @@ type User struct {
 	Password        string `json:"password"`
 	Position        string `json:"position"`
 	Expirience      uint16 `json:"expirience"`
-	Education_level int    `json:"education_level"`
+	Education_level string `json:"education_level"`
 	Description     string `json:"description"`
 }

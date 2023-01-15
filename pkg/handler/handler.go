@@ -16,16 +16,13 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	api := router.Group("/api")
+	user := router.Group("/user")
 	{
-		user := api.Group("/user")
-		{
-			user.POST("/", h.createUser)
-			user.GET("/", h.getAllUsers)
-			user.GET("/:id", h.getUserById)
-			user.PUT("/:id", h.updateUser)
-			user.DELETE("/:id", h.deleteUser)
-		}
+		user.POST("/", h.createUser)
+		user.GET("/", h.getAllUsers)
+		user.GET("/:id", h.getUserById)
+		user.PUT("/:id", h.updateUser)
+		user.DELETE("/:id", h.deleteUser)
 	}
 	return router
 }
