@@ -1,7 +1,7 @@
 package SiteForPractic
 
 type User struct {
-	Id              int    `gorm:"primaryKey;autoIncrement;unique" json:"id"`
+	Id              int    `json:"-" db:"id"`
 	Phone_number    int    `json:"phone_number" binding:"required"`
 	Password        string `json:"password" binding:"required"`
 	Position        string `json:"position" binding:"required"`

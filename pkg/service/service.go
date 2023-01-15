@@ -5,12 +5,12 @@ import (
 	"github.com/JloMkAaA/SiteForPractic/pkg/repository"
 )
 
-type ManipulateUser interface {
+type Authorization interface {
 	CreateUser(user SiteForPractic.User) (int, error)
 }
 
 type Service struct {
-	ManipulateUser
+	Authorization
 }
 
 func NewService(repos *repository.Repository) *Service {

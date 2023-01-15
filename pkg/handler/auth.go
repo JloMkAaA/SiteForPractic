@@ -17,7 +17,7 @@ func (h *Handler) createUser(c *gin.Context) {
 
 	id, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error)
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
