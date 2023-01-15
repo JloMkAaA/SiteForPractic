@@ -1,14 +1,20 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/JloMkAaA/SiteForPractic"
+	"github.com/jmoiron/sqlx"
+)
 
-type ManipulateUser interface {
+type Authorization interface {
+	CreateUser(user SiteForPractic.User) (int, error)
 }
 
 type Repository struct {
-	ManipulateUser
+	Authorization
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorization: NewAuthPostgres(db),
+	}
 }

@@ -1,8 +1,12 @@
 package service
 
-import "github.com/JloMkAaA/SiteForPractic/pkg/repository"
+import (
+	"github.com/JloMkAaA/SiteForPractic"
+	"github.com/JloMkAaA/SiteForPractic/pkg/repository"
+)
 
 type ManipulateUser interface {
+	CreateUser(user SiteForPractic.User) (int, error)
 }
 
 type Service struct {
@@ -10,5 +14,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }
