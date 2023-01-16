@@ -26,18 +26,26 @@ func (h *Handler) createUser(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getAllUsers(c *gin.Context) {
-
+type signInInput struct {
+	Phone_number int    `json:"phone_number" binding:"required"`
+	Password     string `json:"password" binding:"required"`
 }
 
-func (h *Handler) getUserById(c *gin.Context) {
+func (h *Handler) signIn(c *gin.Context) {
+	var input signInInput
 
-}
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
-func (h *Handler) updateUser(c *gin.Context) {
+	token, err := h.services.Authorization.GenerateToken(input.Phone_number, input.Password)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-}
-
-func (h *Handler) deleteUser(c *gin.Context) {
-
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+	})
 }
