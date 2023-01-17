@@ -48,7 +48,7 @@ func (h *Handler) updateUser(c *gin.Context) {
 	}
 
 	if err := h.services.Update(userId, id, input); err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, "invalid id param")
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 

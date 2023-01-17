@@ -4,7 +4,7 @@ import "errors"
 
 type User struct {
 	Id              int    `json:"-" db:"id"`
-	Phone_number    int    `json:"phone_number" binding:"required"`
+	Phone_number    uint64 `json:"phone_number" binding:"required"`
 	Password        string `json:"password" binding:"required"`
 	Position        string `json:"position" binding:"required"`
 	Expirience      uint16 `json:"expirience" binding:"required"`
@@ -13,7 +13,7 @@ type User struct {
 }
 
 type UpdateUser struct {
-	Phone_number    *int    `json:"phone_number"`
+	Phone_number    *uint64 `json:"phone_number"`
 	Password        *string `json:"password"`
 	Position        *string `json:"position"`
 	Expirience      *uint16 `json:"expirience"`
