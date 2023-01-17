@@ -17,24 +17,24 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 	return &UserPostgres{db: db}
 }
 
-func (r *UserPostgres) GetUserById(userIdAuth, userId int) (SiteForPractic.User, error) {
+func (r *UserPostgres) GetUserById(userId int) (SiteForPractic.User, error) {
 	var user SiteForPractic.User
 
-	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1 AND id=$2", userTable)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", userTable)
 
-	err := r.db.Get(&user, query, userIdAuth, userId)
+	err := r.db.Get(&user, query, userId)
 
 	return user, err
 }
 
-func (r *UserPostgres) Delete(userIdAuth, userId int) error {
-	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1 AND id=$2", userTable)
-	_, err := r.db.Exec(query, userIdAuth, userId)
+func (r *UserPostgres) Delete(userId int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", userTable)
+	_, err := r.db.Exec(query, userId)
 
 	return err
 }
 
-func (r *UserPostgres) Update(userIdAuth, userId int, input SiteForPractic.UpdateUser) error {
+func (r *UserPostgres) Update(userId int, input SiteForPractic.UpdateUser) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1
@@ -74,7 +74,7 @@ func (r *UserPostgres) Update(userIdAuth, userId int, input SiteForPractic.Updat
 
 	// UPDATE users SET phone_number = '123123123', password = '321321', description = 'ВаВавывау' WHERE ...
 
-	query := fmt.Sprintf("UPDATE %s SET %s WHERE id=%d AND id=%d", userTable, setQuery, userIdAuth, userId)
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id=%d", userTable, setQuery, userId)
 
 	logrus.Debugf("Update query: %s", query)
 	logrus.Debugf("args: %s", args)

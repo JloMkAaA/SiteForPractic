@@ -45,6 +45,8 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
+	c.Header("Authorization", token)
+
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
 	})

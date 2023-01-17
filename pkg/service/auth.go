@@ -48,7 +48,7 @@ func (s *AuthService) GenerateToken(phone_number int, password string) (string, 
 		},
 		user.Id,
 	})
-
+	
 	return token.SignedString([]byte(signinKey))
 }
 

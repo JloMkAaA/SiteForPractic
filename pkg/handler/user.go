@@ -15,18 +15,22 @@ func (h *Handler) getUserById(c *gin.Context) {
 	}
 
 	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
+
+	if userId == id {
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+			return
+		}
+
+		user, err := h.services.GetUserById(id)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, user)
 	}
 
-	user, err := h.services.GetUserById(userId, id)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, user)
 }
 
 func (h *Handler) updateUser(c *gin.Context) {
@@ -36,25 +40,29 @@ func (h *Handler) updateUser(c *gin.Context) {
 	}
 
 	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
+	if userId == id {
+
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+			return
+		}
+
+		var input SiteForPractic.UpdateUser
+		if err := c.BindJSON(&input); err != nil {
+			newErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		if err := h.services.Update(userId, input); err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, statusResponse{
+			Status: "ok",
+		})
 	}
 
-	var input SiteForPractic.UpdateUser
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	if err := h.services.Update(userId, id, input); err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, statusResponse{
-		Status: "ok",
-	})
 }
 
 func (h *Handler) deleteUser(c *gin.Context) {
@@ -64,18 +72,21 @@ func (h *Handler) deleteUser(c *gin.Context) {
 	}
 
 	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
+	if userId == id {
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+			return
+		}
+
+		err = h.services.Delete(userId)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, statusResponse{
+			Status: "Ok",
+		})
 	}
 
-	err = h.services.Delete(userId, id)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, statusResponse{
-		Status: "Ok",
-	})
 }

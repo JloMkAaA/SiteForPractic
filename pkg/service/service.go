@@ -12,9 +12,9 @@ type Authorization interface {
 }
 
 type UserControl interface {
-	GetUserById(userIdAuth, userId int) (SiteForPractic.User, error)
-	Delete(userIdAuth, userId int) error
-	Update(userIdAuth, userId int, input SiteForPractic.UpdateUser) error
+	GetUserById(userId int) (SiteForPractic.User, error)
+	Delete(userId int) error
+	Update(userId int, input SiteForPractic.UpdateUser) error
 }
 
 type Service struct {
