@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/JloMkAaA/SiteForPractic"
@@ -46,7 +45,8 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	c.Header("Authorization", fmt.Sprintf("Bearer %s", token))
+	//c.Header("Authorization", fmt.Sprintf("Bearer %s", token))
+	c.Header("Authorization", token)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
