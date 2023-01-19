@@ -23,7 +23,7 @@ type tokenClaims struct {
 const (
 	salt      = "fgtjf"
 	signinKey = "grgwdsfg"
-	tokenTTL  = 12 * time.Hour
+	tokenTTL  = 15 * time.Minute
 )
 
 func NewAuthService(repo repository.Authorization) *AuthService {
@@ -48,7 +48,7 @@ func (s *AuthService) GenerateToken(phone_number int, password string) (string, 
 		},
 		user.Id,
 	})
-	
+
 	return token.SignedString([]byte(signinKey))
 }
 

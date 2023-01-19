@@ -5,7 +5,6 @@ import (
 
 	"github.com/JloMkAaA/SiteForPractic"
 	"github.com/gin-gonic/gin"
-	"github.com/go-humble/locstor"
 )
 
 func (h *Handler) createUser(c *gin.Context) {
@@ -46,8 +45,12 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	bearer := "Bearer" + token
-	locstor.SetItem("token", bearer)
+	bearer := token
+	// Cookie
+	c.SetCookie("token", bearer, 60*15, "/", "localhost", false, true)
+
+	// InternalStorage
+	// locstor.SetItem("token", bearer)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
