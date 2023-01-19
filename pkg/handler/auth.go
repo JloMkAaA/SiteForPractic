@@ -5,6 +5,7 @@ import (
 
 	"github.com/JloMkAaA/SiteForPractic"
 	"github.com/gin-gonic/gin"
+	"github.com/go-humble/locstor"
 )
 
 func (h *Handler) createUser(c *gin.Context) {
@@ -45,8 +46,8 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	//c.Header("Authorization", fmt.Sprintf("Bearer %s", token))
-	c.Header("Authorization", token)
+	bearer := "Bearer" + token
+	locstor.SetItem("token", bearer)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,

@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-humble/locstor"
 )
 
 const (
@@ -14,6 +15,9 @@ const (
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
+	token, err := locstor.GetItem("token")
+	c.Header("Authorization", token)
+
 	header := c.GetHeader(authorizationHeader)
 	if header == "" {
 		newErrorResponse(c, http.StatusUnauthorized, "empty auth header")
