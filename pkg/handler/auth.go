@@ -51,6 +51,7 @@ func (h *Handler) signIn(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	token, err := c.Cookie("token")
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "")
