@@ -21,6 +21,19 @@ func (h *Handler) createUser(c *gin.Context) {
 		return
 	}
 
+	token, err := h.services.Authorization.GenerateToken(input.Phone_number, input.Password)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	bearer := token
+	// Cookie
+	c.SetCookie("token", bearer, 60*60, "/", "localhost", false, true)
+
+	// InternalStorage
+	// locstor.SetItem("token", bearer)
+
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
@@ -38,19 +51,11 @@ func (h *Handler) signIn(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-
-	token, err := h.services.Authorization.GenerateToken(input.Phone_number, input.Password)
+	token, err := c.Cookie("token")
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "")
 		return
 	}
-
-	bearer := token
-	// Cookie
-	c.SetCookie("token", bearer, 60*15, "/", "localhost", false, true)
-
-	// InternalStorage
-	// locstor.SetItem("token", bearer)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,

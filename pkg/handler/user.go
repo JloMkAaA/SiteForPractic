@@ -29,6 +29,9 @@ func (h *Handler) getUserById(c *gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, user)
+	} else {
+		newErrorResponse(c, http.StatusForbidden, "Access Forbidden")
+		return
 	}
 
 }

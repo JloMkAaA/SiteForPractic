@@ -7,7 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user SiteForPractic.User) (int, error)
-	GetUser(phone_number int, password string) (SiteForPractic.User, error)
+	GetUser(phone_number uint64, password string) (SiteForPractic.User, error)
 }
 
 type UserManipulated interface {

@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"errors"
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/JloMkAaA/SiteForPractic"
@@ -23,7 +24,7 @@ type tokenClaims struct {
 const (
 	salt      = "fgtjf"
 	signinKey = "grgwdsfg"
-	tokenTTL  = 15 * time.Minute
+	tokenTTL  = 60 * time.Minute
 )
 
 func NewAuthService(repo repository.Authorization) *AuthService {
@@ -35,7 +36,7 @@ func (s *AuthService) CreateUser(user SiteForPractic.User) (int, error) {
 	return s.repo.CreateUser(user)
 }
 
-func (s *AuthService) GenerateToken(phone_number int, password string) (string, error) {
+func (s *AuthService) GenerateToken(phone_number uint64, password string) (string, error) {
 	user, err := s.repo.GetUser(phone_number, generatePasswordHash(password))
 	if err != nil {
 		return "", err
@@ -69,6 +70,19 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 	}
 
 	return claims.UserId, nil
+}
+
+func (s *AuthService) NewRefreshToken() (string, error) {
+	b := make([]byte, 0)
+	a := rand.NewSource(time.Now().Unix())
+	r := rand.New(a)
+
+	_, err := r.Read(b)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%x", b), nil
 }
 
 func generatePasswordHash(password string) string {

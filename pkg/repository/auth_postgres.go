@@ -27,7 +27,7 @@ func (r *AuthPostgres) CreateUser(user SiteForPractic.User) (int, error) {
 	return id, nil
 }
 
-func (r *AuthPostgres) GetUser(phone_number int, password string) (SiteForPractic.User, error) {
+func (r *AuthPostgres) GetUser(phone_number uint64, password string) (SiteForPractic.User, error) {
 	var user SiteForPractic.User
 
 	query := fmt.Sprintf("SELECT id FROM %s WHERE phone_number=$1 AND password=$2", userTable)

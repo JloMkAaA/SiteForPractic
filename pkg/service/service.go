@@ -7,8 +7,9 @@ import (
 
 type Authorization interface {
 	CreateUser(user SiteForPractic.User) (int, error)
-	GenerateToken(phone_number int, password string) (string, error)
+	GenerateToken(phone_number uint64, password string) (string, error)
 	ParseToken(token string) (int, error)
+	NewRefreshToken() (string, error)
 }
 
 type UserControl interface {
