@@ -54,7 +54,7 @@ func (h *Handler) signIn(c *gin.Context) {
 
 	token, err := c.Cookie("token")
 	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "")
+		newErrorResponse(c, http.StatusBadRequest, "you need to create an account or refresh the token")
 		return
 	}
 

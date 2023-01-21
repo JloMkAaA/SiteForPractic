@@ -29,6 +29,7 @@ func (h *Handler) getUserById(c *gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, user)
+
 	} else {
 		newErrorResponse(c, http.StatusForbidden, "Access Forbidden")
 		return
@@ -64,6 +65,7 @@ func (h *Handler) updateUser(c *gin.Context) {
 		c.JSON(http.StatusOK, statusResponse{
 			Status: "ok",
 		})
+
 	} else {
 		newErrorResponse(c, http.StatusForbidden, "Access Forbidden")
 		return
@@ -93,6 +95,7 @@ func (h *Handler) deleteUser(c *gin.Context) {
 		c.JSON(http.StatusOK, statusResponse{
 			Status: "Ok",
 		})
+
 	} else {
 		newErrorResponse(c, http.StatusForbidden, "Access Forbidden")
 		return
